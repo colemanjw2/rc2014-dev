@@ -1,0 +1,13 @@
+# z88dk build artifacts
+*.ihx
+*.bin
+*.map
+*.sym
+*.lst
+*.rel
+
+# editor noise
+.vscode/settings.json
+
+# OS junk
+.DS_Store

@@ -1,0 +1,43 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "RC2014-build",
+      "type": "shell",
+      "command": "zcc",
+      "args": [
+        "+rc2014",
+	"-clib=new",
+        "-create-app",
+        "-org=9000",
+        "${file}",
+        "-o",
+        "${fileBasenameNoExtension}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "RC2014-upload",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+          "/usr/bin/pv -p -t -e -r ${fileBasenameNoExtension}.ihx > /dev/ttyUSB0"
+      ],
+      "dependsOn": "RC2014-build",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    }
+  ]
+}
+
