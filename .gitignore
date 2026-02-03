@@ -11,3 +11,6 @@
 
 # OS junk
 .DS_Store
+
+# macOS junk
+._*
