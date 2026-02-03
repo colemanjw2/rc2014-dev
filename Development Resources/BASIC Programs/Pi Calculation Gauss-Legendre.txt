@@ -1,0 +1,16 @@
+10 INPUT "Enter the number of iterations: "; N
+20 A = 1
+30 B = 1 / SQR(2)
+40 T = 0.25
+50 P = 1
+60 FOR I = 1 TO N
+70   X = (A + B) / 2
+80   B = SQR(A * B)
+90   T = T - P * (A - X) * (A - X)
+100  A = X
+110  NEXT I
+120 PI = (A + B) * (A + B) / (4 * T)
+130 LET I = INT(Z)
+140 LET D = (Z - I) * 10000000
+150 PRINT "Approximation of Pi after"; N; "iterations: "; I; "."; INT(D)
+160 END

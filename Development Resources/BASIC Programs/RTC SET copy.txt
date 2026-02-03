@@ -1,0 +1,64 @@
+10 PRINT "WARM START (Y/N)? ";
+20 INPUT W$
+30 IF W$="Y" OR W$="y" THEN GOTO 300
+
+50 PRINT "SET TIME AND DATE"
+60 INPUT "Hours (1-12): "; H
+70 INPUT "Minutes (0-59): "; M
+80 INPUT "AM or PM? (A/P): "; AMPM$
+90 INPUT "Year, Tens Digit: "; T
+100 INPUT "Year, Ones Digit: "; Z
+110 INPUT "Month, Tens Digit: "; A
+120 INPUT "Month, Ones Digit: "; B
+130 INPUT "Day, Tens Digit: "; C
+140 INPUT "Day, Ones Digit: "; D
+
+150 IF H > 12 OR H < 1 THEN PRINT "Invalid hour!"; GOTO 60
+160 IF M > 59 OR M < 0 THEN PRINT "Invalid minute!"; GOTO 70
+
+170 REM Determine tens of hours digit
+180 IF H >= 10 THEN LET G = 1 ELSE LET G = 0
+
+190 REM Adjust G for PM
+200 REM IF AMPM$="P" OR AMPM$="p" THEN LET G=G+2
+
+210 REM Extract single hour digit
+220 IF H >= 10 THEN LET H = H - 10
+
+230 PRINT "You have set the following time and date:"
+240 PRINT "Time: "; G; H; ":"; RIGHT$("0" + STR$(M), 2); " "; AMPM$
+250 PRINT "Date: "; T; Z; "/"; A; B; "/"; C; D
+
+300 REM Set the RTC
+310 OUT 127,0
+320 OUT 125,0
+330 OUT 125,1
+340 IF (INP(125) AND 2) = 0 THEN GOTO 400
+350 OUT 125,0
+360 GOTO 320
+
+400 OUT 127,3
+410 FOR Y=112 TO 124
+420 OUT Y,0
+430 NEXT Y
+440 OUT 117,G
+450 OUT 116,H
+460 OUT 115,INT(M/10)
+470 OUT 114,M MOD 10 
+480 OUT 123,T
+490 OUT 122,Z
+500 OUT 121,A
+510 OUT 120,B
+520 OUT 119,C
+530 OUT 118,D
+
+540 OUT 127,0
+550 OUT 125,0
+
+560 PRINT "Time and date have been set successfully."
+570 REM Print the set time and date for confirmation
+580 PRINT "Confirmed Time and Date:"
+590 PRINT "Time: "; G; H; ":"; RIGHT$("0" + STR$(M), 2); " "; AMPM$
+600 PRINT "Date: "; T; Z; "/"; A; B; "/"; C; D
+
+610 END

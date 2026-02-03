@@ -1,0 +1,7 @@
+10 INPUT "Enter the number of iterations: "; N
+20 P = 1
+30 FOR I = 1 TO N
+40   P = P * (4 * I * I) / ((4 * I * I) - 1)
+50 NEXT I
+60 PRINT "Approximation of Pi: "; P * 2;
+70 END

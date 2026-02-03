@@ -1,0 +1,7 @@
+10 INPUT "Enter the number of terms: "; N
+20 S = 0
+30 FOR I = 0 TO N - 1
+40 S = S + ((-1) ^ I) / (2 * I + 1)
+50 NEXT I
+60 PRINT "Approximation of Pi: "; S * 4;
+70 END
