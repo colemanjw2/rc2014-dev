@@ -7,37 +7,53 @@
       "command": "zcc",
       "args": [
         "+rc2014",
-	"-clib=new",
+        "-clib=new",
         "-create-app",
         "-org=9000",
         "${file}",
         "-o",
         "${fileBasenameNoExtension}"
       ],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "problemMatcher": ["$gcc"]
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "silent" }
     },
     {
-      "label": "RC2014-upload",
+      "label": "RC2014-upload-auto",
       "type": "shell",
       "command": "bash",
       "args": [
         "-c",
-          "/usr/bin/pv -p -t -e -r ${fileBasenameNoExtension}.ihx > /dev/ttyUSB0"
+        "set -euo pipefail; \
+PORT=/dev/ttyUSB0; \
+BAUD=57600; \
+FLOW=none; \
+RATE=20; \
+FILE='${file}'; \
+EXT='${fileExtname}'; \
+OUT='${fileBasenameNoExtension}.ihx'; \
+if [ \"$FLOW\" = \"rtscts\" ]; then FC=crtscts; else FC=-crtscts; fi; \
+echo \"[RC2014] port=$PORT baud=$BAUD flow=$FLOW rate=${RATE}B/s\"; \
+if [ \"$EXT\" = \".ihx\" ]; then \
+  SEND=\"$FILE\"; \
+  echo \"[RC2014] sending prebuilt: $SEND\"; \
+else \
+  echo \"[RC2014] building: $FILE\"; \
+  zcc +rc2014 -clib=new -create-app -org=9000 \"$FILE\" -o \"${fileBasenameNoExtension}\"; \
+  SEND=\"$OUT\"; \
+  echo \"[RC2014] sending built: $SEND\"; \
+fi; \
+stty -F \"$PORT\" \"$BAUD\" cs8 -cstopb -parenb -ixon -ixoff \"$FC\"; \
+/usr/bin/pv -L \"$RATE\" -p -t -e -r \"$SEND\" > \"$PORT\""
       ],
-      "dependsOn": "RC2014-build",
-      "group": {
-        "kind": "test",
-        "isDefault": true
-      },
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": [],
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
+        "panel": "shared",
+        "clear": false,
+        "focus": false
       }
     }
   ]
 }
-
