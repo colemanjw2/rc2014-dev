@@ -23,15 +23,15 @@
       "type": "shell",
       "command": "bash",
       "args": [
-        "-c",
+        "-lc",
         "set -euo pipefail; \
 PORT=/dev/ttyUSB0; \
 BAUD=57600; \
 FLOW=none; \
-RATE=20; \
-FILE='${file}'; \
-EXT='${fileExtname}'; \
-OUT='${fileBasenameNoExtension}.ihx'; \
+RATE=50; \
+FILE=\"${file}\"; \
+EXT=\"${fileExtname}\"; \
+OUT=\"${fileBasenameNoExtension}.ihx\"; \
 if [ \"$FLOW\" = \"rtscts\" ]; then FC=crtscts; else FC=-crtscts; fi; \
 echo \"[RC2014] port=$PORT baud=$BAUD flow=$FLOW rate=${RATE}B/s\"; \
 if [ \"$EXT\" = \".ihx\" ]; then \
