@@ -189,7 +189,7 @@ This is the entire development loop.
 For observing output or manual interaction:
 
 ```bash
-sudo minicom -D /dev/ttyUSB0 -b 115200
+sudo minicom -D /dev/ttyUSB0 -b 57600
 ```
 
 Minicom settings:
@@ -241,6 +241,4 @@ Check these in order:
 * One-keystroke iteration
 
 If this setup ever stops making sense, **this README plus `.vscode/tasks.json` are the authoritative record**.
-
-```
 
