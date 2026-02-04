@@ -1,4 +1,3 @@
-```md
 # RC2014 Development Workflow (BASIC + HLOAD)
 
 This project targets an **RC2014** system running **BASIC with HLOAD ROM**.
